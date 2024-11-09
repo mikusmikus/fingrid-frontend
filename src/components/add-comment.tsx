@@ -16,7 +16,7 @@ export default function AddComment({ idea }: { idea: Idea }) {
 
   return (
     <>
-      <Button onClick={() => setIsOpen(true)}>Add feedback</Button>
+      <Button onClick={() => setIsOpen(true)}>Add comment</Button>
       <Modal
         isOpen={isOpen}
         onAfterClose={() => setIsOpen(false)}

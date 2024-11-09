@@ -1,6 +1,6 @@
 export * from './polymorphic-ref';
 
-const allowedCommentStatusTypes = [
+export const allowedCommentStatusTypes = [
   'development proposal',
   'in review',
   'clarification needed',

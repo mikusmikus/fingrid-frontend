@@ -8,7 +8,7 @@ import { WithInViewAnimation } from '@/components/motion/with-in-view-animate';
 import { Typography } from '@/components/typography/typography';
 import { useSingleIdea } from '@/data/actions';
 import { useUser } from '@/providers/user-provider';
-import { Idea } from '@/types';
+import { allowedCommentStatusTypes, Idea } from '@/types';
 
 // Example of fake idea data
 const fakeIdea = {
@@ -96,6 +96,16 @@ export default function TicketPage({ id }: { id: number }) {
     );
   }
 
+  const showAddCommentButton =
+    user?.role === 'ADMIN' ||
+    (user?.role === 'user' &&
+      allowedCommentStatusTypes.includes(
+        idea.status as
+          | 'development proposal'
+          | 'in review'
+          | 'clarification needed'
+      ));
+
   return (
     <WithInViewAnimation>
       <Container className="space-y-10 py-6">
@@ -106,7 +116,7 @@ export default function TicketPage({ id }: { id: number }) {
         </div>
         <IdeaOverview idea={idea} />
 
-        {user && (
+        {user && showAddCommentButton && (
           <div className="shrink-0">
             <AddComment idea={idea} />
           </div>
