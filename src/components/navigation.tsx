@@ -20,8 +20,8 @@ const links = [
     href: '/releases',
   },
   {
-    label: 'Tickets',
-    href: '/tickets',
+    label: 'Ideas',
+    href: '/ideas',
   },
 ];
 
@@ -54,13 +54,6 @@ export function Navigation() {
           {links.map((link) => (
             <NavLink key={link.href} {...link} pathname={pathname} />
           ))}
-          {user && (
-            <NavLink
-              href="/my-tickets"
-              pathname={pathname}
-              label="My Tickets"
-            />
-          )}
         </ul>
 
         {/* Create Ticket Button - Always Visible */}

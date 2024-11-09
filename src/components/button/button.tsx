@@ -12,7 +12,8 @@ export type ButtonVariant =
   | 'primary-dark'
   | 'primary-light'
   | 'secondary-dark'
-  | 'secondary-light';
+  | 'secondary-light'
+  | 'success';
 
 type Props<C extends React.ElementType> = PolymorphicComponentPropWithRef<
   C,
@@ -105,6 +106,9 @@ export const Button: ButtonComponent = forwardRef(function Button<
             variant === 'secondary-dark' && !disabled,
           'text-neutral-000 hover:bg-neutral-000 hover:text-primary-600 border border-neutral-000':
             variant === 'secondary-light' && !disabled,
+
+          'text-neutral-000 bg-success-icon hover:bg-success-icon/90':
+            variant === 'success' && !disabled,
 
           'text-neutral-500 bg-neutral-300':
             (variant === 'primary-dark' || variant === 'primary-light') &&

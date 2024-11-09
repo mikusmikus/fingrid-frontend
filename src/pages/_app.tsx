@@ -8,12 +8,7 @@ import { Toaster } from 'react-hot-toast';
 import { Layout } from '@/components/layout';
 import { getUser } from '@/helpers/get-user';
 import QueryProvider from '@/providers/query-provider';
-import { UserProvider } from '@/providers/user-provider';
-
-type User = {
-  email: string;
-  role: string;
-};
+import { User, UserProvider } from '@/providers/user-provider';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();

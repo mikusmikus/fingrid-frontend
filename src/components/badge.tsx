@@ -41,7 +41,7 @@ export const Badge = ({
   return (
     <div
       className={clsx(
-        'inline-flex items-center gap-0.5 rounded-full',
+        'inline-flex shrink-0 items-center gap-0.5 whitespace-nowrap rounded-full',
         {
           'px-2 py-1 text-cap-xs': size === 'large',
           'px-1 py-0.5 text-cap-xxs': size === 'small',

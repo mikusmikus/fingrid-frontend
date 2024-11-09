@@ -60,7 +60,7 @@ export function SubmitIdeaForm() {
   const [relevantIdeas, setRelevantIdeas] = useState<RelevantIdea[]>([]);
 
   const { mutateAsync: getIdeas } = useGetRelevantIdeas();
-  const { mutateAsync: sendIdeas } = useSendIdeas();
+  const { mutateAsync: sendIdeas, isLoading: isSendingIdeas } = useSendIdeas();
   const description = watch('description');
 
   useEffect(() => {
@@ -87,8 +87,13 @@ export function SubmitIdeaForm() {
   }, [description]);
 
   const onSubmit = async (data: IdeaFormData) => {
+    if (!user) {
+      toast.error('You must be logged in to submit an idea');
+      return;
+    }
+
     try {
-      await sendIdeas({ ...data, userId: user?.id });
+      await sendIdeas({ ...data, userId: user.id.toString() });
 
       toast.success('Idea submitted successfully');
       // Reset form
@@ -199,7 +204,9 @@ export function SubmitIdeaForm() {
             />
           </div>
 
-          <Button type="submit">Submit Idea</Button>
+          <Button disabled={isSendingIdeas} type="submit" variant="success">
+            {isSendingIdeas ? 'Submitting...' : 'Submit Idea'}
+          </Button>
         </form>
       </div>
     </div>
@@ -243,7 +250,7 @@ const RevelantIdeaCard = ({ idea }: { idea: RelevantIdea }) => {
           <Button
             variant="primary-light"
             size="sm"
-            href={`/ticket/${idea.id}`}
+            href={`/ideas/${idea.id}`}
             as={Link}
             iconRight="arrow-right"
           >

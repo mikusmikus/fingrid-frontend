@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-type User = {
+export type User = {
   email: string;
   role: string;
   id: number;
@@ -29,7 +29,7 @@ export const UserProvider = ({
 }) => {
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      {children}
+      {children as React.ReactNode}
     </UserContext.Provider>
   );
 };

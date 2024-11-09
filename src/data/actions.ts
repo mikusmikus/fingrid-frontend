@@ -1,8 +1,16 @@
-import { useMutation, UseMutationResult, useQuery } from 'react-query';
+import {
+  useMutation,
+  UseMutationResult,
+  useQuery,
+  useQueryClient,
+} from 'react-query';
 
-import { Ticket } from '@/types';
+import { Idea } from '@/types';
 
 // const fetch_suggestions_url = 'http://10.87.1.222:8000/ideas/similarity';
+
+const API_URL_EGONS = 'http://10.93.0.60:1337';
+const API_URL_VALDIS = 'http://10.93.13.223:8000';
 
 export interface RelevantIdea {
   description: string;
@@ -12,6 +20,7 @@ export interface RelevantIdea {
   subject: string;
   created_at: number;
 }
+
 export const useGetRelevantIdeas = (): UseMutationResult<
   { data: RelevantIdea[] },
   unknown,
@@ -19,7 +28,7 @@ export const useGetRelevantIdeas = (): UseMutationResult<
 > => {
   return useMutation(
     async (body: { category: string; description: string }) => {
-      const response = await fetch('http://10.87.1.222:8000/ideas/similarity', {
+      const response = await fetch(`${API_URL_VALDIS}/ideas/similarity`, {
         method: 'POST',
         body: JSON.stringify(body),
         headers: {
@@ -31,8 +40,6 @@ export const useGetRelevantIdeas = (): UseMutationResult<
   );
 };
 
-const API_URL = 'http://10.87.3.162:1337/ideas';
-
 type FormData = {
   category: string;
   description: string;
@@ -42,7 +49,7 @@ type FormData = {
 
 export const useSendIdeas = () => {
   return useMutation(async (body: FormData) => {
-    const response = await fetch(API_URL, {
+    const response = await fetch(API_URL_EGONS, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
@@ -60,12 +67,124 @@ export const useSendIdeas = () => {
   });
 };
 
-export const useSingleTicket = (orderId: string) => {
-  return useQuery<Ticket>(['/order/ticket/${orderId}'], async () => {
-    const response = await fetch(`API_URL/${orderId}`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch gift receipts');
-    }
-    return response.json();
+export const getSingleIdea = async (ideaId: number) => {
+  const response = await fetch(`${API_URL_EGONS}/ideas/${ideaId}`);
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch idea');
+  }
+
+  return response.json();
+};
+
+export const useSingleIdea = (ideaId: number) => {
+  return useQuery<Idea>([`/ideas/${ideaId}`], async () => {
+    return getSingleIdea(ideaId);
   });
+};
+
+type CommentData = {
+  text: string;
+  ideaId: number;
+  userId: number;
+  type: string;
+};
+
+export const useAddComment = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async (body: CommentData) => {
+      console.log('body', body);
+
+      const response = await fetch(
+        `${API_URL_EGONS}/ideas/${body.ideaId}/comment`,
+        {
+          method: 'POST',
+          body: JSON.stringify(body),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to add comment');
+      }
+
+      return true;
+    },
+    {
+      onSuccess: (_, body) => {
+        queryClient.invalidateQueries([`/ideas/${body.ideaId}`]);
+      },
+    }
+  );
+};
+
+export const getIdeas = async () => {
+  const response = await fetch(`${API_URL_EGONS}/ideas`);
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch ideas');
+  }
+
+  return response.json();
+};
+
+export const useGetIdeas = () => {
+  return useQuery(['/ideas'], async () => {
+    return getIdeas();
+  });
+};
+
+export const getIdea = async (ideaId: string) => {
+  const response = await fetch(`${API_URL_EGONS}/ideas/${ideaId}`);
+
+  return response.json();
+};
+
+// export const getReleases = async () => {
+//   const response = await fetch(`${API_URL}/releases`);
+
+//   if (!response.ok) {
+//     throw new Error('Failed to fetch releases');
+//   }
+// };
+
+type UpdateIdeaData = {
+  releaseNumber?: string;
+  estimate?: string;
+  productImprovement?: number;
+  priority?: number;
+  inCommisioning?: boolean;
+  functionalArea?: string;
+  status?: string;
+  ideaId: number;
+};
+
+export const updateIdeaMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async (body: UpdateIdeaData) => {
+      const { ideaId, ...data } = body;
+      const response = await fetch(`${API_URL}/ideas/${ideaId}`, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update idea');
+      }
+
+      return true;
+    },
+    {
+      onSuccess: (_, body) => {
+        queryClient.invalidateQueries([`/ideas/${body.ideaId}`]);
+      },
+    }
+  );
 };

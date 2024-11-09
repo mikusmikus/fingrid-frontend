@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
 import { Button } from '@/components/button/button';
-import TextInput from '@/components/input';
+import TextInput from '@/components/text-input';
 import { useUser } from '@/providers/user-provider';
 
 type FormData = {
@@ -16,7 +16,7 @@ type FormData = {
 // Fake user/admin data for validation
 const fakeUsers = [
   { email: 'user@example.com', password: 'user', role: 'user', id: 1 },
-  { email: 'admin@example.com', password: 'admin', role: 'admin', id: 2 },
+  { email: 'admin@example.com', password: 'admin', role: 'admin', id: 3 },
 ];
 
 export default function LoginPage() {

@@ -1,9 +1,11 @@
 'use client';
 
-import { SvgArrowLeft, SvgArrowRight } from '@riis/ui';
-import type { PolymorphicComponentPropWithRef, PolymorphicRef } from '@types';
 import clsx from 'clsx';
 import { cloneElement, forwardRef, isValidElement } from 'react';
+
+import { PolymorphicComponentPropWithRef, PolymorphicRef } from '@/types';
+
+import { SvgArrowLeft, SvgArrowRight } from '../icons';
 
 export type AnchorSize = 'sm' | 'md' | 'lg' | 'none';
 export type AnchorVariant =
@@ -59,7 +61,7 @@ export const Anchor = forwardRef(function Anchor<
   const Component = as || 'a';
 
   const iconClassName = clsx(
-    'inline-block shrink-0 text-neutral-000 duration-300',
+    'inline-block shrink-0  text-neutral-000 duration-300',
     {
       'text-neutral-500': disabled,
 
@@ -84,7 +86,7 @@ export const Anchor = forwardRef(function Anchor<
     <Component
       ref={ref}
       className={clsx(
-        'group inline-flex items-center outline-none duration-300',
+        'group inline-flex items-center whitespace-nowrap outline-none duration-300',
 
         {
           'hover:underline': inverseUnderline,
