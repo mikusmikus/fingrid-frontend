@@ -4,10 +4,9 @@ import Button from '@/components/button/button';
 import { Container } from '@/components/container';
 import { IdeaCard } from '@/components/idea-card';
 import { Typography } from '@/components/typography/typography';
+import { getIdeas } from '@/data/actions';
 import { useUser } from '@/providers/user-provider';
 import { Idea } from '@/types';
-
-import { fakeIdeas } from '..';
 
 export default function IdeasPage({ ideas }: { ideas: Idea[] }) {
   const { user } = useUser();
@@ -63,13 +62,13 @@ export default function IdeasPage({ ideas }: { ideas: Idea[] }) {
 }
 
 export async function getServerSideProps() {
-  // const ideas = await getIdeas();
+  const ideas = await getIdeas();
 
   // const releases = await getReleases();
 
   return {
     props: {
-      ideas: fakeIdeas,
+      ideas,
     },
   };
 }

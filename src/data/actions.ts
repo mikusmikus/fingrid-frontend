@@ -5,7 +5,7 @@ import {
   useQueryClient,
 } from 'react-query';
 
-import { Idea } from '@/types';
+import { Idea, Notification } from '@/types';
 
 // const fetch_suggestions_url = 'http://10.87.1.222:8000/ideas/similarity';
 
@@ -18,7 +18,7 @@ export interface RelevantIdea {
   similarity_score: number;
   status: string;
   subject: string;
-  created_at: number;
+  created_at: string;
 }
 
 export const useGetRelevantIdeas = (): UseMutationResult<
@@ -128,7 +128,7 @@ export const getIdeas = async () => {
     throw new Error('Failed to fetch ideas');
   }
 
-  return response.json();
+  return response.json() as Promise<Idea[]>;
 };
 
 export const useGetIdeas = () => {
@@ -167,7 +167,7 @@ export const updateIdeaMutation = () => {
   return useMutation(
     async (body: UpdateIdeaData) => {
       const { ideaId, ...data } = body;
-      const response = await fetch(`${API_URL}/ideas/${ideaId}`, {
+      const response = await fetch(`${API_URL_EGONS}/ideas/${ideaId}`, {
         method: 'PUT',
         body: JSON.stringify(data),
         headers: {
@@ -184,6 +184,43 @@ export const updateIdeaMutation = () => {
     {
       onSuccess: (_, body) => {
         queryClient.invalidateQueries([`/ideas/${body.ideaId}`]);
+      },
+    }
+  );
+};
+
+export const useGetNotifications = (userId: number, enabled: boolean) => {
+  return useQuery(
+    ['/notifications'],
+    async () => {
+      const response = await fetch(
+        `${API_URL_EGONS}/users/${userId}/notifications`
+      );
+
+      return response.json() as Promise<Notification[]>;
+    },
+    {
+      enabled,
+    }
+  );
+};
+
+export const useMarkNotificationAsRead = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async (notificationId: number) => {
+      await fetch(`${API_URL_EGONS}/notifications/${notificationId}/read`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      return true;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['/notifications']);
       },
     }
   );

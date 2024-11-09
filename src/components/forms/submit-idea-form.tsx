@@ -222,7 +222,7 @@ const RevelantIdeaCard = ({ idea }: { idea: RelevantIdea }) => {
             {idea.status}
           </Badge>
           <Typography variant="cap-sm" className="text-info-text">
-            {format(new Date(idea.created_at * 1000), 'Pp')}
+            {format(new Date(idea.created_at), 'dd.MM.yyy')}
           </Typography>
         </div>
         <div className="flex items-start justify-between">

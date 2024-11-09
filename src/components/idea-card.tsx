@@ -16,6 +16,11 @@ export const IdeaCard = ({ idea }: { idea: Idea }) => {
           <span className="block text-p-reg-xs text-neutral-700 md:inline">
             Created on {format(new Date(idea.createdOn), 'dd.MM.yyy')}
           </span>
+          {idea.updatedOn && (
+            <span className="ml-2 block text-p-reg-xs text-neutral-700 md:inline">
+              Updated on {format(new Date(idea.updatedOn), 'dd.MM.yyy')}
+            </span>
+          )}
         </Typography>
 
         <Badge color="green" size="large" className="shrink-0">
@@ -25,22 +30,7 @@ export const IdeaCard = ({ idea }: { idea: Idea }) => {
       <div className="flex flex-col gap-3 md:flex-row md:items-center">
         <div className="grow">
           {idea.description && (
-            <p className="line-clamp-1 text-p-reg-xs">
-              {idea.description}
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque
-              aspernatur dolorem quod tenetur odio, sed voluptatibus officiis!
-              Quo sed laudantium esse, tempora deleniti ad fuga! Animi
-              reprehenderit recusandae maiores consequuntur? Modi ipsam dolorum
-              rem quas nihil illo exercitationem a eum ex adipisci, laudantium,
-              commodi explicabo. Nemo consectetur corporis suscipit
-              exercitationem officia dolorum dolore veritatis inventore
-              voluptatum! Eius maiores doloremque quam ex voluptate minus
-              commodi cumque asperiores distinctio ratione voluptates dolore
-              excepturi, aliquid voluptatum corrupti ab fugit nobis velit in
-              nostrum facere placeat perferendis? Sapiente, commodi nulla, rerum
-              corporis alias aliquid fugiat harum ut magni magnam illo,
-              consequuntur asperiores atque minus.
-            </p>
+            <p className="line-clamp-1 text-p-reg-xs">{idea.description}</p>
           )}
         </div>
 

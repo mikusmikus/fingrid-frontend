@@ -9,6 +9,7 @@ import { useUser } from '@/providers/user-provider';
 import { Button } from './button/button';
 import { Container } from './container';
 import { SvgAddFilled1, SvgMenu } from './icons';
+import NotificationButton from './notification-button';
 
 const links = [
   {
@@ -56,6 +57,10 @@ export function Navigation() {
           ))}
         </ul>
 
+        <div className="ml-auto mr-4">
+          <NotificationButton />
+        </div>
+
         {/* Create Ticket Button - Always Visible */}
         {user && (
           <Button
@@ -63,7 +68,7 @@ export function Navigation() {
             href="/create-ticket"
             iconLeft={<SvgAddFilled1 />}
             size="lg"
-            className="ml-auto min-w-[140px] whitespace-nowrap"
+            className="min-w-[140px] whitespace-nowrap"
           >
             Create Ticket
           </Button>
@@ -145,7 +150,7 @@ function NavLink({ href, label, pathname, onClick }: NavLinkProps) {
       <Link
         href={href}
         onClick={onClick}
-        className={`relative px-3 py-2 text-p-reg-md font-medium transition-colors ${
+        className={`relative p-2 text-p-reg-base font-medium transition-colors ${
           isActive ? 'text-red' : 'text-foreground/80 hover:text-foreground'
         }`}
       >

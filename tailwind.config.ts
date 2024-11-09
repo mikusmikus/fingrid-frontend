@@ -324,6 +324,7 @@ const config: Config = {
       prixClipFix: 'prixClipFix 2s linear infinite',
       spinner: 'spin 1s linear infinite',
       in: 'in 200ms ease-out',
+      'jingle-bell-shake': 'jingle-bell-shake 1s ease-in-out infinite',
     },
     keyframes: {
       spin: {
@@ -352,6 +353,15 @@ const config: Config = {
         '100%': {
           clipPath: 'polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0)',
         },
+      },
+      'jingle-bell-shake': {
+        '0%': { transform: 'translate(0, 0)' },
+        '10%': { transform: 'translate(-3px, 0)' },
+        '20%': { transform: 'translate(3px, 0)' },
+        '30%': { transform: 'translate(-3px, 0)' },
+        '40%': { transform: 'translate(3px, 0)' },
+        '50%': { transform: 'translate(0, 0)' },
+        '100%': { transform: 'translate(0, 0)' },
       },
     },
   },

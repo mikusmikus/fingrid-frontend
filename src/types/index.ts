@@ -54,3 +54,11 @@ export type Comment = {
   type: CommentType;
   author: string;
 };
+
+export type Notification = {
+  id: number;
+  status: 'New' | 'Read';
+  type: 'string';
+  ideaId: 0;
+  ideaSubject: 'string';
+};

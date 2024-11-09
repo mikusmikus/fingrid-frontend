@@ -7,6 +7,7 @@ import { useUser } from '@/providers/user-provider';
 import { CommentType, commentTypes, Idea } from '@/types';
 
 import Button from './button/button';
+import { Modal } from './modal';
 import SelectInput from './select';
 import TextArea from './text-area';
 
@@ -16,6 +17,13 @@ export default function AddComment({ idea }: { idea: Idea }) {
   return (
     <>
       <Button onClick={() => setIsOpen(true)}>Add feedback</Button>
+      <Modal
+        isOpen={isOpen}
+        onAfterClose={() => setIsOpen(false)}
+        header="Add feedback"
+      >
+        <AddCommentForm idea={idea} closeModal={() => setIsOpen(false)} />
+      </Modal>
     </>
   );
 }
@@ -111,7 +119,7 @@ export function AddCommentForm({
         />
       </div>
 
-      <Button disabled={isLoading} type="submit" variant="success">
+      <Button disabled={isLoading} type="submit">
         {isLoading ? 'Submitting...' : 'Submit Feedback'}
       </Button>
     </form>
