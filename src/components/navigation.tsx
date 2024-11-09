@@ -1,9 +1,13 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
+import { useUser } from '@/providers/user-provider';
+
 import { Button } from './button/button';
+import { Container } from './container';
 import { SvgAddFilled1, SvgMenu } from './icons';
 
 const links = [
@@ -24,10 +28,18 @@ const links = [
 export function Navigation() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.removeItem('fingridAccount');
+    router.push('/login');
+  };
+
+  const { user } = useUser();
 
   return (
     <nav className="w-full bg-neutral-300/80 backdrop-blur-sm">
-      <div className="container mx-auto flex items-center justify-between p-4">
+      <Container className="flex items-center justify-between py-2">
         {/* Mobile Menu Button */}
         <Button
           onClick={() => setIsOpen(!isOpen)}
@@ -38,23 +50,51 @@ export function Navigation() {
         </Button>
 
         {/* Desktop Navigation */}
-        <ul className="hidden md:flex md:items-center md:gap-8">
+        <ul className="hidden md:flex md:items-center md:gap-10">
           {links.map((link) => (
             <NavLink key={link.href} {...link} pathname={pathname} />
           ))}
+          {user && (
+            <NavLink
+              href="/my-tickets"
+              pathname={pathname}
+              label="My Tickets"
+            />
+          )}
         </ul>
 
         {/* Create Ticket Button - Always Visible */}
-        <Button
-          as={Link}
-          href="/create-ticket"
-          iconLeft={<SvgAddFilled1 />}
-          size="lg"
-          className="ml-auto min-w-[120px] whitespace-nowrap"
-        >
-          Create Ticket
-        </Button>
-      </div>
+        {user && (
+          <Button
+            as={Link}
+            href="/create-ticket"
+            iconLeft={<SvgAddFilled1 />}
+            size="lg"
+            className="ml-auto min-w-[140px] whitespace-nowrap"
+          >
+            Create Ticket
+          </Button>
+        )}
+
+        {user ? (
+          <Button
+            onClick={handleLogout}
+            variant="secondary-dark"
+            className="ml-4 hidden lg:inline-flex"
+          >
+            Logout
+          </Button>
+        ) : (
+          <Button
+            as={Link}
+            href="/login"
+            variant="secondary-dark"
+            className="ml-4"
+          >
+            Login
+          </Button>
+        )}
+      </Container>
 
       {/* Mobile Navigation Dropdown */}
       <motion.div
@@ -65,7 +105,7 @@ export function Navigation() {
         }}
         className="overflow-hidden md:hidden"
       >
-        <ul className="flex flex-col space-y-4 p-4">
+        <ul className="flex flex-col space-y-2 p-2">
           {links.map((link) => (
             <NavLink
               key={link.href}
@@ -74,6 +114,17 @@ export function Navigation() {
               onClick={() => setIsOpen(false)}
             />
           ))}
+          {user && (
+            <li>
+              <Button
+                onClick={handleLogout}
+                variant="secondary-dark"
+                className="text-p-reg-sm"
+              >
+                Logout
+              </Button>
+            </li>
+          )}
         </ul>
       </motion.div>
     </nav>

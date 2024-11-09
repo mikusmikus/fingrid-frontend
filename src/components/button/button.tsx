@@ -5,7 +5,7 @@ import { cloneElement, forwardRef, isValidElement } from 'react';
 
 import { PolymorphicComponentPropWithRef, PolymorphicRef } from '@/types';
 
-import { SvgAddFilled1, SvgArrowLeft, SvgArrowRight } from '../icons';
+import { SvgArrowLeft, SvgArrowRight } from '../icons';
 
 type ButtonSize = 'sm' | 'md' | 'lg';
 export type ButtonVariant =
@@ -123,7 +123,6 @@ export const Button: ButtonComponent = forwardRef(function Button<
       disabled={disabled}
       aria-disabled={disabled}
     >
-      <SvgAddFilled1 />
       {iconLeft === 'arrow-left' && (
         <SvgArrowLeft aria-hidden className={iconClassName} />
       )}

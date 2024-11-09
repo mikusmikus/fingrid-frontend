@@ -1,30 +1,24 @@
-import { type NextPage } from "next";
-import Head from "next/head";
+import { type NextPage } from 'next';
+
+import { Container } from '@/components/container';
+import { SubmitIdeaForm } from '@/components/forms/submit-idea-form';
+import { WithInViewAnimation } from '@/components/motion/with-in-view-animate';
+import { Typography } from '@/components/typography/typography';
+import { UserProtectedWrapper } from '@/components/user-protected-wrapper';
 
 const CreateTicketPage: NextPage = () => {
   return (
-    <>
-      <Head>
-        <title>Create Ticket</title>
-        <meta name="description" content="Create a new ticket" />
-      </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-          <h1 className="text-5xl font-extrabold tracking-tight">
+    <UserProtectedWrapper>
+      <WithInViewAnimation>
+        <Container className="pt-10">
+          <Typography as="h1" variant="h3" className="mb-10 text-center">
             Create Ticket
-          </h1>
-          <div className="w-full max-w-md">
-            {/* Ticket form will go here */}
-            <div className="rounded-xl bg-background/80 p-4">
-              <p className="text-center">
-                Ticket creation form coming soon...
-              </p>
-            </div>
-          </div>
-        </div>
-      </main>
-    </>
+          </Typography>
+          <SubmitIdeaForm />
+        </Container>
+      </WithInViewAnimation>
+    </UserProtectedWrapper>
   );
 };
 
-export default CreateTicketPage; 
+export default CreateTicketPage;
