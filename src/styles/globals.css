@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+  --primary: 240 5.9% 10%;
+  --primary-foreground: 0 0% 98%;
+  
+  --red: 0 84% 60%;
+  --red-400: 0 84% 65%;
+  --red-500: 0 84% 60%;
+}
+
+[data-theme="dark"] {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 240 5.9% 10%;
+  
+  --red: 0 84% 60%;
+  --red-400: 0 84% 65%;
+  --red-500: 0 84% 60%;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+
+  font-family: Arial, Helvetica, sans-serif;
+}
