@@ -49,7 +49,7 @@ type FormData = {
 
 export const useSendIdeas = () => {
   return useMutation(async (body: FormData) => {
-    const response = await fetch(API_URL_EGONS, {
+    const response = await fetch(`${API_URL_EGONS}/ideas`, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {

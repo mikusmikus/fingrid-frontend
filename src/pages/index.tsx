@@ -57,6 +57,8 @@ import { Idea } from '@/types';
 // ];
 
 export default function Home({ ideas }: { ideas: Idea[] }) {
+  console.log('ideas', ideas);
+
   return (
     <Container>
       <div className="my-10">
